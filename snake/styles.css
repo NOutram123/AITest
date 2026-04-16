@@ -129,7 +129,7 @@ button:focus-visible {
   background: var(--cell);
 }
 
-.cell:nth-child(odd) {
+.cell:nth-child(odd):not(.cell--snake):not(.cell--head):not(.cell--food) {
   background: var(--cell-alt);
 }
 

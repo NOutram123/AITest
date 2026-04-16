@@ -1,4 +1,4 @@
-import {
+const {
   GRID_SIZE,
   TICK_MS,
   createInitialState,
@@ -8,7 +8,7 @@ import {
   startGame,
   stepGame,
   togglePause,
-} from "./snake-logic.js";
+} = window.SnakeLogic;
 
 const board = document.querySelector("#board");
 const scoreValue = document.querySelector("#score");
@@ -38,7 +38,8 @@ restartButton.addEventListener("click", () => {
 });
 
 touchButtons.forEach((button) => {
-  button.addEventListener("click", () => {
+  button.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
     changeDirection(button.dataset.direction);
   });
 });
@@ -74,12 +75,15 @@ function handleKeydown(event) {
 }
 
 function changeDirection(direction) {
-  state = queueDirection(state, direction);
-
   if (!state.isRunning && !state.isGameOver) {
+    state = queueDirection(state, direction);
     state = startGame(state);
+    syncTimer();
+    render();
+    return;
   }
 
+  state = queueDirection(state, direction);
   syncTimer();
   render();
 }
@@ -100,8 +104,11 @@ function syncTimer() {
 }
 
 function render() {
-  const snakeLookup = new Set(state.snake.map((segment) => `${segment.x},${segment.y}`));
+  const snakeBodyLookup = new Set(
+    state.snake.slice(1).map((segment) => `${segment.x},${segment.y}`),
+  );
   const head = state.snake[0];
+  const foodKey = state.food ? `${state.food.x},${state.food.y}` : null;
 
   cells.forEach((cell, index) => {
     const x = index % GRID_SIZE;
@@ -109,10 +116,10 @@ function render() {
     const key = `${x},${y}`;
 
     cell.className = "cell";
-    if (state.food && state.food.x === x && state.food.y === y) {
+    if (key === foodKey) {
       cell.classList.add("cell--food");
     }
-    if (snakeLookup.has(key)) {
+    if (snakeBodyLookup.has(key)) {
       cell.classList.add("cell--snake");
     }
     if (head.x === x && head.y === y) {
