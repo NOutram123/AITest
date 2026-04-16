@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app">
+    <section class="panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Classic Arcade</p>
+          <h1>Snake</h1>
+        </div>
+        <div class="scoreboard">
+          <div>
+            <span class="scoreboard__label">Score</span>
+            <strong id="score">0</strong>
+          </div>
+          <div>
+            <span class="scoreboard__label">Best</span>
+            <strong id="best-score">0</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-row">
+        <p id="status">Press any arrow key or WASD to start.</p>
+        <div class="actions">
+          <button id="pause-button" type="button">Pause</button>
+          <button id="restart-button" type="button">Restart</button>
+        </div>
+      </div>
+
+      <div class="board-shell">
+        <div
+          id="board"
+          class="board"
+          role="application"
+          aria-label="Snake game board"
+        ></div>
+      </div>
+
+      <div class="controls" aria-label="Touch controls">
+        <button data-direction="up" type="button" aria-label="Move up">↑</button>
+        <div class="controls__row">
+          <button data-direction="left" type="button" aria-label="Move left">←</button>
+          <button data-direction="down" type="button" aria-label="Move down">↓</button>
+          <button data-direction="right" type="button" aria-label="Move right">→</button>
+        </div>
+      </div>
+
+      <ul class="help">
+        <li>Use arrow keys or WASD to steer.</li>
+        <li>Eat food to grow and raise your score.</li>
+        <li>Press Space to pause or resume.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
