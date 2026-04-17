@@ -1,0 +1,15 @@
+{
+  "name": "pulseboard-stocks",
+  "version": "0.1.0",
+  "description": "Futuristic stock dashboard using Alpha Vantage and SQLite.",
+  "main": "server.js",
+  "scripts": {
+    "start": "\"C:\\Program Files\\nodejs\\node.exe\" server.js",
+    "dev": "\"C:\\Program Files\\nodejs\\node.exe\" server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.9.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}

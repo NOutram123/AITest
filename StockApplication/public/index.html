@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulseboard Stocks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero__copy">
+        <p class="eyebrow">Personal market command center</p>
+        <h1>Pulseboard Stocks</h1>
+        <p class="hero__text">
+          A futuristic stock watchlist for your main dashboard, starting lean with Alpha Vantage and a local SQLite database.
+        </p>
+      </div>
+      <div class="hero__status">
+        <div class="status-card">
+          <span class="status-card__label">Tracked Stocks</span>
+          <strong id="tracked-count">0</strong>
+        </div>
+        <div class="status-card">
+          <span class="status-card__label">Market Data</span>
+          <strong>Alpha Vantage</strong>
+        </div>
+        <div class="status-card">
+          <span class="status-card__label">Storage</span>
+          <strong>SQLite</strong>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="panel panel--config">
+        <div class="panel__header">
+          <div>
+            <p class="panel__eyebrow">System</p>
+            <h2>Dashboard status</h2>
+          </div>
+          <button id="refresh-all-button" class="button button--secondary">Refresh quotes</button>
+        </div>
+
+        <div class="system-grid">
+          <div class="field">
+            <span>Backend</span>
+            <div id="backend-status" class="system-pill">Checking...</div>
+          </div>
+          <div class="field">
+            <span>Auto refresh</span>
+            <select id="refresh-interval-select">
+              <option value="0">Off</option>
+              <option value="60000">Every 1 minute</option>
+              <option value="120000" selected>Every 2 minutes</option>
+              <option value="300000">Every 5 minutes</option>
+            </select>
+          </div>
+        </div>
+
+        <p id="settings-hint" class="settings-hint">Set `ALPHA_VANTAGE_API_KEY` in `.env` before running the app.</p>
+      </section>
+
+      <section class="panel panel--search">
+        <div class="panel__header">
+          <div>
+            <p class="panel__eyebrow">Discover</p>
+            <h2>Add stocks to the watchlist</h2>
+          </div>
+        </div>
+
+        <form id="search-form" class="search-form">
+          <label class="field field--grow">
+            <span>Search by company or ticker</span>
+            <input id="search-input" name="query" type="text" placeholder="Example: ASML, SAP, BMW, MSFT">
+          </label>
+          <button class="button" type="submit">Search</button>
+        </form>
+
+        <div id="search-status" class="inline-status" aria-live="polite"></div>
+        <div id="search-results" class="search-results"></div>
+      </section>
+
+      <section class="layout-grid">
+        <section class="panel">
+          <div class="panel__header">
+            <div>
+              <p class="panel__eyebrow">Watchlist</p>
+              <h2>Tracked stocks</h2>
+            </div>
+            <div class="watchlist-tools">
+              <input id="watchlist-filter" type="search" placeholder="Filter tracked stocks">
+            </div>
+          </div>
+
+          <div id="watchlist-empty" class="empty-state">
+            Search for a company or ticker, then add it here.
+          </div>
+
+          <div class="table-wrap">
+            <table class="watchlist-table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Ticker</th>
+                  <th>Exchange</th>
+                  <th>Price</th>
+                  <th>Change</th>
+                  <th>Updated</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="watchlist-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel panel--chart">
+          <div class="panel__header">
+            <div>
+              <p class="panel__eyebrow">Charting</p>
+              <h2 id="chart-title">Select a stock</h2>
+            </div>
+            <div class="range-switcher" id="range-switcher">
+              <button class="range-button is-active" data-range="30" type="button">1M</button>
+              <button class="range-button" data-range="90" type="button">3M</button>
+              <button class="range-button" data-range="180" type="button">6M</button>
+              <button class="range-button" data-range="365" type="button">1Y</button>
+            </div>
+          </div>
+
+          <div id="chart-status" class="inline-status" aria-live="polite"></div>
+          <div class="chart-wrap">
+            <canvas id="stock-chart" aria-label="Stock chart"></canvas>
+          </div>
+          <p class="panel-note">
+            Daily charting is intentionally used here because it fits Alpha Vantage's free tier more cleanly than an intraday-heavy dashboard.
+          </p>
+        </section>
+      </section>
+
+      <section class="panel panel--metals">
+        <div class="panel__header">
+          <div>
+            <p class="panel__eyebrow">Deferred feature</p>
+            <h2>Gold and silver ticker</h2>
+          </div>
+        </div>
+        <p class="panel-note">
+          This is left out of the first build so the dashboard stays dependable and cheap. If you want, we can later add a branded free embed or switch to a direct metal feed.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <template id="search-result-template">
+    <article class="search-card">
+      <div class="search-card__meta">
+        <h3></h3>
+        <p class="search-card__subtitle"></p>
+      </div>
+      <button class="button button--secondary" type="button">Add</button>
+    </article>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
