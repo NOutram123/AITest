@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Star Siege</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2304070d'/%3E%3Cpath fill='%239cff57' d='M14 6h4v4h6v4h4v8h-4v4h-4v-4h-8v4H8v-4H4v-8h4v-4h6z'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="game-panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Arcade Prototype</p>
+            <h1>Star Siege</h1>
+          </div>
+          <div class="legend">
+            <span><kbd>A</kbd> Left</span>
+            <span><kbd>D</kbd> Right</span>
+            <span><kbd>Space</kbd> Fire</span>
+          </div>
+        </header>
+
+        <canvas
+          id="game"
+          width="800"
+          height="900"
+          aria-label="Space Invaders style game canvas"
+        ></canvas>
+
+        <footer class="panel-footer">
+          <p>Clear the wave, defend the shields, and survive as long as you can.</p>
+          <p>Press <kbd>Enter</kbd> to start or restart after game over.</p>
+        </footer>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>

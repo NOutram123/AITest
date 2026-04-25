@@ -1,0 +1,124 @@
+:root {
+  --bg: #08111f;
+  --bg-accent: #142844;
+  --panel: rgba(5, 12, 24, 0.82);
+  --panel-border: rgba(151, 226, 255, 0.18);
+  --text: #e9f7ff;
+  --muted: #9eb7c8;
+  --lime: #9cff57;
+  --cyan: #6ae4ff;
+  --amber: #ffc857;
+  --pink: #ff6790;
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top, rgba(58, 128, 191, 0.22), transparent 28%),
+    linear-gradient(180deg, #11213a 0%, #08111f 45%, #04070f 100%);
+  color: var(--text);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.game-panel {
+  width: min(100%, 920px);
+  padding: 20px;
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  background: var(--panel);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+}
+
+.panel-header,
+.panel-footer {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header {
+  margin-bottom: 18px;
+}
+
+.panel-footer {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.panel-footer p {
+  margin: 0;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3.8vw, 3rem);
+  line-height: 1;
+}
+
+.legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  color: var(--muted);
+}
+
+kbd {
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font: inherit;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  border: 1px solid rgba(151, 226, 255, 0.15);
+  background: linear-gradient(180deg, #08101e 0%, #02050a 100%);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+@media (max-width: 760px) {
+  .panel-header,
+  .panel-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .legend {
+    justify-content: flex-start;
+  }
+}
